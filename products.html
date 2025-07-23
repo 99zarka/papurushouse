@@ -5,10 +5,180 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse Products</title>
     <script src="loadData.js"></script>
-
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .book-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer; /* Indicate clickable */
+        }
+        .book-card button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .book-card button:hover {
+            background-color: #218838;
+        }
+        .book-card img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .book-card h3 {
+            margin: 10px 0 5px;
+            color: #333;
+        }
+        .book-card p {
+            margin: 0 0 5px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .book-card .rating {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .search-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .search-container input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .search-container button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
+    <h1>Our Books</h1>
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search by title...">
+        <button id="search-button">Search</button>
+    </div>
+    <div id="products-container" class="products-container">
+
+    </div>
+
+    <script>
+
+var fullData = JSON.parse(localStorage.getItem('fullData'));
+var productsContainer = document.getElementById('products-container');
+var availableBooksISPN = JSON.parse(localStorage.getItem('availableBooksISPN'));
+var allBooksISPN = [...availableBooksISPN]; // Store original list for filtering
+
+function displayProducts(booksToDisplay) {
+    if(booksToDisplay.length === 0){
+        productsContainer.innerHTML = '<p>No books found.</p>';
+        return;
+    }
+
+    productsContainer.innerHTML = '';
+    for (let i = 0; i < booksToDisplay.length; i++) {
+        const isbn = booksToDisplay[i];
+        const book = fullData[isbn];
+        const coverPath = `products/${isbn}/${isbn}-cover.jpg`;
+
+        productsContainer.innerHTML += `
+            <div class="book-card" onclick="navigateToProduct('${isbn}')">
+                <img src="${coverPath}" alt="${book.title} Cover">
+                <h3>${book.title}</h3>
+                <p><strong>Author:</strong> ${book.author}</p>
+                <p><strong>Published:</strong> ${book.publishedDate}</p>
+                <p class="rating"><strong>Rating:</strong> ${book.aggregate_rating} / 5</p>
+                <button class="add-to-cart" data-isbn="${isbn}" onclick="addToCart(${isbn})">Add to Cart</button>
+            </div>
+        `;
+    }
+}
+
+function filterBooks() {
+    var searchInput = document.getElementById('search-input');
+    var searchTerm = searchInput.value.toLowerCase();
+    if (searchTerm === '') {
+        displayProducts(allBooksISPN);
+        return;
+    }
+    var filteredBooks = [];
+    for (let i = 0; i < allBooksISPN.length; i++) {
+        var isbn = allBooksISPN[i];
+        console.log(i);
+        console.log(isbn);
+        console.log(fullData[isbn]);
+        console.log(fullData[isbn].title);
+        if (fullData[isbn].title.toLowerCase().includes(searchTerm)) {
+            filteredBooks.push(isbn);
+        }
+        if (fullData[isbn].publishedDate.includes(searchTerm)) {
+            filteredBooks.push(isbn);
+        }
+        if (fullData[isbn].author.toLowerCase().includes(searchTerm)) {
+            filteredBooks.push(isbn);
+        }
+        
+    }
+    displayProducts(filteredBooks);
+}
+
+document.getElementById('search-button').addEventListener('click', filterBooks);
+document.getElementById('search-input').addEventListener('keyup', filterBooks);
+
+
+
+displayProducts(allBooksISPN); // Display all books initially
+
+function navigateToProduct(isbn) { 
+    if (!event.target.classList.contains('add-to-cart')) {
+        window.location.href = `product.html?isbn=${isbn}`;
+    }
+}
+
+function addToCart(isbn) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    if (cart[isbn]) {
+        cart[isbn]++;
+    } else {
+        cart[isbn] = 1;
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`Added ${fullData[isbn].title} to cart!`);
+}
+
+
+    </script>
 </body>
-
-
 </html>
