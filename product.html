@@ -117,6 +117,11 @@
             <p class="rating"><strong>Aggregate Rating:</strong> <span id="book-rating"></span> / 5</p>
             <p><strong>Price:</strong> $<span id="book-price"></span></p>
             <p><strong>Description:</strong> <span id="book-description"></span></p>
+            <div class="quantity-control">
+                <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                <input type="number" class="quantity-input" value="1" min="1"  max="99" data-isbn="${isbn}">
+                <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+            </div>
             <button id="add-to-cart-btn" class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
         </div>
     </div>
@@ -177,15 +182,23 @@ function setMainImage(imagePath) {
     event.target.classList.add('active');
 }
 
+function changeQuantity(delta) {
+    const input = event.target.parentNode.querySelector('.quantity-input');
+    let value = parseInt(input.value);
+    value += delta;
+    if (value < 1) value = 1;
+    input.value = value;
+}
+
 function addToCart(isbn = productIsbn) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || {};
-    if (cart[isbn]) {
-        cart[isbn]++;
-    } else {
-        cart[isbn] = 1;
-    }
+    var quantityInput = document.querySelector(`.quantity-input`);
+    var quantity = parseInt(quantityInput.value);
+
+    var cart = JSON.parse(localStorage.getItem('cart')) || {};
+    cart[isbn] = quantity;
+
     localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`Added ${fullData[isbn].title} to cart!`);
+    alert(`Added ${quantity} copies of ${fullData[isbn].title} to cart!`);
 }
 
     </script>
