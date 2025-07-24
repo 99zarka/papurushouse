@@ -119,10 +119,10 @@
     </style>
 </head>
 <body>
-
+    
     <h1>Our Books</h1>
     <div class="search-container">
-        <input type="text" id="search-input" placeholder="Search by title...">
+        <input type="text" id="search-input" placeholder="Search by title, year, or author...">
         <button id="search-button">Search</button>
     </div>
     <div id="products-container" class="products-container">
@@ -214,7 +214,8 @@ function addToCart(isbn) {
     cart[isbn] = quantity;
 
     localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`Added ${quantity} copies of ${fullData[isbn].title} to cart!`);
+    window.countCart()
+    // alert(`Added ${quantity} copies of ${fullData[isbn].title} to cart!`);
 }
 
 displayProducts(allBooksISBN); // Display all books initially

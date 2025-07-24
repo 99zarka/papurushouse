@@ -114,10 +114,10 @@
       if (foundUser) {
         localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
         window.location.href = "index.html";
-        loginForm.reset();
+        // loginForm.reset();
       } else {
         alert("Invalid email or password.");
-        loginForm.reset();
+        // loginForm.reset();
       }
     });
   </script>

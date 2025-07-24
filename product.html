@@ -347,7 +347,8 @@ function addToCart(isbn = productIsbn) {
     cart[isbn] = quantity;
 
     localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`Added ${quantity} copies of ${fullData[isbn].title} to cart!`);
+    window.countCart()
+    // alert(`Added ${quantity} copies of ${fullData[isbn].title} to cart!`);
 }
 
     </script>

@@ -1,3 +1,19 @@
+function countCart(){
+    var cart = JSON.parse(localStorage.getItem('cart'))
+    var itemsCounter = 0;
+    if (Object.keys(cart).length !== 0) {
+        for(var i = 0; i < Object.values(cart).length; i++){
+            itemsCounter += Object.values(cart)[i];
+        }       
+    }
+    if(document.getElementById('cart-counter'))
+        document.getElementById('cart-counter').textContent = itemsCounter;
+    return itemsCounter;
+}
+
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const navHtml = `
         <nav class="navbar">
@@ -14,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <li id="login-link"><a href="login.html">Login</a></li>
                 <li id="register-link"><a href="register.html">Register</a></li>
                 <li id="logout-link" style="display: none;"><a href="#" id="logout-button">Logout</a></li>
-                <li><a href="checkout.html">Checkout</a></li>
+                <li><a href="checkout.html">🛒 Cart <span id="cart-counter">${countCart()}</span></a></li>
             </ul>
         </nav>
     `;
@@ -110,8 +126,11 @@ document.addEventListener('DOMContentLoaded', function() {
             width: 50px;
             margin-right: 10px;
             border-radius:50px;
-            background-color: #ffee00ff;
+            background-color: #e6e6e6;
 
+        }
+        .nav-brand img:hover {
+            background-color: #ffee00ff;
         }
 
         .nav-links {

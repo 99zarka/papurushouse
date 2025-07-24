@@ -273,6 +273,7 @@
             input.value = value;
             cart[isbn] = value;
             localStorage.setItem('cart', JSON.stringify(cart));
+            window.countCart()
 
 
         }
@@ -282,6 +283,7 @@
             event.preventDefault();
             delete cart[isbn];
             localStorage.setItem('cart', JSON.stringify(cart));
+            window.countCart()
             displayCartItems();
         }
 
