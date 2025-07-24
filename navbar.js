@@ -1,5 +1,6 @@
 function countCart(){
     var cart = JSON.parse(localStorage.getItem('cart'))
+    if(cart === null) cart = {};
     var itemsCounter = 0;
     if (Object.keys(cart).length !== 0) {
         for(var i = 0; i < Object.values(cart).length; i++){

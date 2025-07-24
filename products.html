@@ -130,7 +130,7 @@
     </div>
 
     <script>
-
+var cart = JSON.parse(localStorage.getItem('cart')) || {};
 var fullData = JSON.parse(localStorage.getItem('fullData'));
 var productsContainer = document.getElementById('products-container');
 var availableBooksISBN = JSON.parse(localStorage.getItem('availableBooksISBN'));
@@ -147,6 +147,7 @@ function displayProducts(booksToDisplay) {
         const isbn = booksToDisplay[i];
         const book = fullData[isbn];
         const coverPath = `products/${isbn}/${isbn}-cover.jpg`;
+        var cartCounter = cart[isbn] || 1;
 
         productsContainer.innerHTML += `
             <div class="book-card" onclick="navigateToProduct('${isbn}')">
@@ -158,14 +159,52 @@ function displayProducts(booksToDisplay) {
                 <h3><strong>Price:</strong> ${book.price} L.E.</h3>
                 <div class="quantity-control">
                     <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
-                    <input type="number" class="quantity-input" value="1" min="1" max="99" data-isbn="${isbn}">
+                    <input type="number" 
+                        class="quantity-input"
+                        id = "input-${isbn}"
+                        value="${cartCounter}"
+                        min="1"
+                        max="99"
+                        data-isbn="${isbn}"
+                        onchange="enableDisableButton(${isbn})"
+                    >
                     <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
                 </div>
-                <button class="add-to-cart" data-isbn="${isbn}" onclick="addToCart('${isbn}')">Add to Cart</button>
+                <button class="add-to-cart" id="btn-${isbn}" data-isbn="${isbn}" onclick="addToCart('${isbn}')">Add to Cart</button>
             </div>
         `;
     }
 }
+
+
+function enableDisableButton(isbn){
+    var btn = document.getElementById(`btn-${isbn}`);
+    var myinput = document.getElementById(`input-${isbn}`);
+    var cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+    if(myinput.value == cart[isbn]){
+        btn.disabled = true;
+        btn.style.backgroundColor = "grey";
+        btn.innerText = "Added to cart";
+    }
+    else if(cart[isbn]){
+        btn.disabled = false;
+        btn.style.backgroundColor = "orange";
+        btn.innerText = "change quantity";
+
+    }
+    else{
+        btn.disabled = false;
+        btn.style.backgroundColor = "green";
+        btn.innerText = "Add to cart";
+    }
+}
+
+
+
+
+
+
 
 function filterBooks() {
     var searchInput = document.getElementById('search-input');
@@ -204,6 +243,7 @@ function changeQuantity(delta) {
     value += delta;
     if (value < 1) value = 1;
     input.value = value;
+    enableDisableButton(input.dataset.isbn);
 }
 
 function addToCart(isbn) {
@@ -215,10 +255,16 @@ function addToCart(isbn) {
 
     localStorage.setItem('cart', JSON.stringify(cart));
     window.countCart()
+    enableDisableButton(isbn);
     // alert(`Added ${quantity} copies of ${fullData[isbn].title} to cart!`);
 }
 
 displayProducts(allBooksISBN); // Display all books initially
+var allButtons = document.querySelectorAll('.add-to-cart');
+console.log(allButtons);
+for (var i = 0; i < allButtons.length; i++) {
+    enableDisableButton(allButtons[i].dataset.isbn);
+}
 
 function navigateToProduct(isbn) { 
     if (!event.target.classList.contains('add-to-cart') && !event.target.classList.contains('quantity-btn') && !event.target.classList.contains('quantity-input')) {

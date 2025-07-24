@@ -164,7 +164,7 @@
         </div>
         
         <div id="checkout-summary" class="checkout-summary">
-            <h2>Order Summa"ry</h2>
+            <h2>Order Summary</h2>
             <div class="summary-row">
                 <span>Subtotal:</span>
                 <span id="subtotal">0 L.E.</span>
@@ -216,7 +216,7 @@
         var cart = JSON.parse(localStorage.getItem('cart')) || {};
         
         // Display cart items
-        function displayCartItems() {
+        function displayCartItems(cart = {}) {
             var cartItemsContainer = document.getElementById('cart-items-container');
             var subtotal = 0;
 
@@ -230,6 +230,7 @@
                 document.querySelector('.clear-cart-btn').style.display = 'none';
                 return;
             }
+
             
             
             for (const isbn in cart) {
@@ -237,17 +238,18 @@
                 const quantity = cart[isbn];
                 const itemTotal = book.price * quantity;
                 subtotal += itemTotal;
+
                 
 
                 cartItemsContainer.innerHTML += `
                 <div class="cart-item">
-                    <img src="products/${isbn}/${isbn}-cover.jpg" alt="${book.title}">
+                    <a href="product.html?isbn=${isbn}"><img src="products/${isbn}/${isbn}-cover.jpg" alt="${book.title}"></a>
                     <div class="item-details">
                         <h3>${book.title}</h3>
                         <p>${book.author}</p>
                         <div class="quantity-control">
                             <button class="quantity-btn" onclick="changeQuantity(${isbn},-1)">-</button>
-                            <input type="number" class="quantity-input" value="${quantity}" min="1" max="99" data-isbn="${isbn}">
+                            <input type="number" class="quantity-input" value="${quantity}" min="1" max="99" data-isbn="${isbn}" onchange="changeQuantity(${isbn},0)">
                             <button class="quantity-btn" onclick="changeQuantity(${isbn},1)">+</button>
                         </div>
                     </div>
@@ -274,7 +276,7 @@
             cart[isbn] = value;
             localStorage.setItem('cart', JSON.stringify(cart));
             window.countCart()
-
+            displayCartItems(cart);
 
         }
 
@@ -284,7 +286,7 @@
             delete cart[isbn];
             localStorage.setItem('cart', JSON.stringify(cart));
             window.countCart()
-            displayCartItems();
+            displayCartItems(cart);
         }
 
         function handleClearCart() {
@@ -294,7 +296,7 @@
             displayCartItems();
         }
         
-        displayCartItems();
+        displayCartItems(cart);
     </script>
     
 </body>

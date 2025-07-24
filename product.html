@@ -238,7 +238,14 @@
 
             <div class="quantity-control">
                 <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
-                <input type="number" class="quantity-input" value="1" min="1"  max="99" data-isbn="${isbn}">
+                <input 
+                    type="number"
+                    class="quantity-input"
+                    value="1"
+                    min="1"
+                    max="99"
+                    onchange="enableDisableButton()"
+                >
                 <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
             </div>
             <button id="add-to-cart-btn" class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
@@ -331,12 +338,35 @@ function setMainImage(imagePath) {
     event.target.classList.add('active');
 }
 
+function enableDisableButton(isbn = productIsbn){
+    var btn = document.getElementById(`add-to-cart-btn`);
+    var myinput = document.querySelector('.quantity-input');
+    var cart = JSON.parse(localStorage.getItem('cart')) || {};
+    if(myinput.value == cart[isbn]){
+        btn.disabled = true;
+        btn.style.backgroundColor = "grey";
+        btn.innerText = "Added to cart";
+    }
+    else if(cart[isbn]){
+        btn.disabled = false;
+        btn.style.backgroundColor = "orange";
+        btn.innerText = "change quantity";
+
+    }
+    else{
+        btn.disabled = false;
+        btn.style.backgroundColor = "green";
+        btn.innerText = "Add to cart";
+    }
+}
+
 function changeQuantity(delta) {
     const input = event.target.parentNode.querySelector('.quantity-input');
     let value = parseInt(input.value);
     value += delta;
     if (value < 1) value = 1;
     input.value = value;
+    enableDisableButton();
 }
 
 function addToCart(isbn = productIsbn) {
@@ -348,8 +378,13 @@ function addToCart(isbn = productIsbn) {
 
     localStorage.setItem('cart', JSON.stringify(cart));
     window.countCart()
+    enableDisableButton(isbn);
     // alert(`Added ${quantity} copies of ${fullData[isbn].title} to cart!`);
 }
+
+var myinput = document.querySelector('.quantity-input');
+myinput.value = cart[productIsbn] || 1;
+enableDisableButton();
 
     </script>
 </body>
