@@ -141,6 +141,14 @@
         .back-button:hover {
             background-color: #5a6268;
         }
+        .clear-cart-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -152,10 +160,11 @@
             <div id="cart-items-container">
                 <!-- Cart items will be loaded here by JavaScript -->
             </div>
+            <button  onclick="handleClearCart()" class="clear-cart-btn">Clear Cart</button>
         </div>
         
         <div id="checkout-summary" class="checkout-summary">
-            <h2>Order Summary</h2>
+            <h2>Order Summa"ry</h2>
             <div class="summary-row">
                 <span>Subtotal:</span>
                 <span id="subtotal">0 L.E.</span>
@@ -210,15 +219,18 @@
         function displayCartItems() {
             var cartItemsContainer = document.getElementById('cart-items-container');
             var subtotal = 0;
+
+            cartItemsContainer.innerHTML = '';
             
             if (Object.keys(cart).length === 0) {
                 cartItemsContainer.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
+                cartItemsContainer.innerHTML += '<a href="products.html" class="back-button">Continue Shopping</a>';
                 document.getElementById('checkout-summary').style.display = 'none';
                 document.querySelector('.checkout-form').style.display = 'none';
+                document.querySelector('.clear-cart-btn').style.display = 'none';
                 return;
             }
             
-            cartItemsContainer.innerHTML = '';
             
             for (const isbn in cart) {
                 const book = fullData[isbn];
@@ -270,6 +282,13 @@
             event.preventDefault();
             delete cart[isbn];
             localStorage.setItem('cart', JSON.stringify(cart));
+            displayCartItems();
+        }
+
+        function handleClearCart() {
+            console.log('Clear cart button clicked');
+            localStorage.removeItem('cart');
+            cart = {};
             displayCartItems();
         }
         
