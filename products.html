@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse Products</title>
     <script src="loadData.js"></script>
+    <script src="navbar.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0; /* Remove default body margin */
             background-color: #f4f4f4;
+        }
+        h1 {
+            margin-left: 20px; /* Adjust heading margin due to navbar */
         }
         .products-container {
             display: grid;
@@ -42,7 +47,9 @@
             background-color: #218838;
         }
         .book-card img {
-            max-width: 150px;
+            min-height: 250px;
+            max-height: 250px;
+
             height: auto;
             border-radius: 4px;
             margin-bottom: 10px;
@@ -112,6 +119,7 @@
     </style>
 </head>
 <body>
+
     <h1>Our Books</h1>
     <div class="search-container">
         <input type="text" id="search-input" placeholder="Search by title...">
@@ -125,8 +133,8 @@
 
 var fullData = JSON.parse(localStorage.getItem('fullData'));
 var productsContainer = document.getElementById('products-container');
-var availableBooksISPN = JSON.parse(localStorage.getItem('availableBooksISPN'));
-var allBooksISPN = [...availableBooksISPN]; // Store original list for filtering
+var availableBooksISBN = JSON.parse(localStorage.getItem('availableBooksISBN'));
+var allBooksISBN = [...availableBooksISBN]; // Store original list for filtering
 
 function displayProducts(booksToDisplay) {
     if(booksToDisplay.length === 0){
@@ -163,12 +171,12 @@ function filterBooks() {
     var searchInput = document.getElementById('search-input');
     var searchTerm = searchInput.value.toLowerCase();
     if (searchTerm === '') {
-        displayProducts(allBooksISPN);
+        displayProducts(allBooksISBN);
         return;
     }
     var filteredBooks = [];
-    for (let i = 0; i < allBooksISPN.length; i++) {
-        var isbn = allBooksISPN[i];
+    for (let i = 0; i < allBooksISBN.length; i++) {
+        var isbn = allBooksISBN[i];
         console.log(i);
         console.log(isbn);
         console.log(fullData[isbn]);
@@ -209,7 +217,7 @@ function addToCart(isbn) {
     alert(`Added ${quantity} copies of ${fullData[isbn].title} to cart!`);
 }
 
-displayProducts(allBooksISPN); // Display all books initially
+displayProducts(allBooksISBN); // Display all books initially
 
 function navigateToProduct(isbn) { 
     if (!event.target.classList.contains('add-to-cart') && !event.target.classList.contains('quantity-btn') && !event.target.classList.contains('quantity-input')) {

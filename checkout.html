@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Check out</title>
     <script src="loadData.js"></script>
+    <script src="navbar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                alert('You must be logged in to access the checkout page.');
+                window.location.href = 'login.html'; // Redirect to login page
+            }
+        });
+    </script>
 </head>
 <body>
     
