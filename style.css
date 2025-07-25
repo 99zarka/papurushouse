@@ -1116,5 +1116,113 @@ body {
 }
 
 .back-to-products i {
-    margin-right: 8px;
+  margin-right: 8px;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #2e302d;
+  color: #fff5df;
+}
+
+body.dark-mode .navbar {
+  background-color: #2e302d;
+  border-bottom-color: #bb963b;
+}
+
+body.dark-mode .nav-links a {
+  color: #fff5df;
+}
+
+body.dark-mode .nav-links a:hover {
+  color: #bb963b;
+}
+
+body.dark-mode .nav-actions span {
+  color: #fff5df;
+}
+
+body.dark-mode .search-input {
+  border-color: #fff5df;
+  color: #fff5df;
+  background-color: #444;
+}
+
+body.dark-mode .icon-btn {
+  color: #fff5df;
+}
+
+body.dark-mode .icon-btn:hover {
+  color: #bb963b;
+}
+
+body.dark-mode .slider-section,
+body.dark-mode .categories,
+body.dark-mode .top-sales,
+body.dark-mode .featured-products,
+body.dark-mode .product-detail-container,
+body.dark-mode .checkout-container {
+  background-color: #2e302d;
+}
+
+body.dark-mode .slide-content,
+body.dark-mode .book-info,
+body.dark-mode .featured-card,
+body.dark-mode .empty-cart {
+  color: #fff5df;
+}
+
+body.dark-mode .cat-card {
+  background-color: #2e302d;
+  box-shadow: 0 8px 16px rgba(255, 245, 223, 0.1);
+}
+
+body.dark-mode .cat-card p {
+  color: #fff5df;
+}
+
+body.dark-mode .featured-card {
+  background-color: #2e302d;
+}
+
+body.dark-mode .featured-card:hover {
+  box-shadow: 0 5px 15px rgba(187, 150, 59, 0.4);
+}
+
+body.dark-mode .form-container {
+  background-color: #444;
+  box-shadow: 0 8px 16px rgba(255, 245, 223, 0.1);
+}
+
+body.dark-mode .form-container label,
+body.dark-mode .form-container input,
+body.dark-mode .quantity-input,
+body.dark-mode .product-info-section strong,
+body.dark-mode .item-price,
+body.dark-mode .summary-row,
+body.dark-mode .form-group label,
+body.dark-mode .form-group input,
+body.dark-mode .form-group select {
+  color: #fff5df;
+}
+
+body.dark-mode .form-container input,
+body.dark-mode .form-group input,
+body.dark-mode .form-group select {
+  border-color: #bb963b;
+  background-color: #555;
+}
+
+body.dark-mode .quantity-control {
+  background-color: #555;
+  border-color: #bb963b;
+}
+
+body.dark-mode .checkout-summary {
+  background-color: #444;
+  box-shadow: 0 4px 8px rgba(255, 245, 223, 0.1);
+}
+
+body.dark-mode .dot.active {
+  background-color: #fff5df;
 }

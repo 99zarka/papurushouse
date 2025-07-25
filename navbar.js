@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </form>
           <a href="checkout.html" class="icon-btn"><i class="fas fa-shopping-cart"></i> <span id="cart-counter">${countCart()}</span></a>
           <button class="icon-btn dark-toggle" id="theme-toggle">
-            <i class="fas fa-moon"></i>
+            <i class="fas" id="theme-icon"></i>
           </button>
         </div>
       </div>
@@ -84,30 +84,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
     const currentTheme = localStorage.getItem('theme');
 
-/*     
+    function applyTheme(theme) {
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        } else {
+            document.body.classList.remove('dark-mode');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+    }
+
     if (currentTheme) {
-        document.body.style.backgroundColor = currentTheme === 'dark' ? '#333' : '#f4f4f4';
-        document.body.style.color = currentTheme === 'dark' ? '#f4f4f4' : '#333';
+        applyTheme(currentTheme);
     } else {
-        document.body.style.backgroundColor = '#f4f4f4';
-        document.body.style.color = '#333';
         localStorage.setItem('theme', 'light');
+        applyTheme('light');
     }
 
     themeToggle.addEventListener('click', function() {
         let theme = localStorage.getItem('theme');
         if (theme === 'light') {
-            document.body.style.backgroundColor = '#333';
-            document.body.style.color = '#f4f4f4';
+            applyTheme('dark');
             localStorage.setItem('theme', 'dark');
         } else {
-            document.body.style.backgroundColor = '#f4f4f4';
-            document.body.style.color = '#333';
+            applyTheme('light');
             localStorage.setItem('theme', 'light');
         }
     });
- */
 
 });
