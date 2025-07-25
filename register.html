@@ -4,109 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account</title>
+    <script src="loadData.js"></script>
     <script src="navbar.js"></script>
-
-
- 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: #f0f2f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      flex-direction: column;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
-    }
-
-    .form-container {
-      background-color: #fff;
-      padding: 30px 40px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 400px;
-    }
-
-    form label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    form input[type="text"],
-    form input[type="email"],
-    form input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    form input[type="submit"] {
-      background-color: rgb(28, 164, 217);
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      width: 100%;
-      transition: background-color 0.3s ease;
-    }
-
-    form input[type="submit"]:hover {
-      background-color: rgb(20, 130, 180);
-    }
-
-    form a {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-      text-decoration: none;
-      color: #0077cc;
-    }
-
-    form a:hover {
-      text-decoration: underline;
-    }
-  </style>
+    <script src="footer.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
+  <script>
+    // Check if user is logged in
+    if (localStorage.getItem('loggedInUser')) {
+      window.location.href = 'index.html';
+    }
+  </script>
 
-  
-  <h1>Create your account</h1>
+  <div class="auth-container">
+    <h1 class="auth-title">Create your account</h1>
 
-  
-  <div class="form-container">
-    <form action="" id="myForm">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" placeholder="Enter your name" required>
+    <div class="form-container">
+      <form id="myForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" placeholder="Enter password" required>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" placeholder="Enter password" required>
 
-      <input type="submit" value="Sign Up">
-      <a href="login.html">Already have an account? Sign in</a>
-    </form>
+        <button type="submit" class="btn auth-btn">Sign Up</button>
+        <a href="login.html" class="auth-link">Already have an account? Sign in</a>
+      </form>
+    </div>
   </div>
 
- 
   <script>
     const form = document.getElementById('myForm');
 
@@ -153,6 +85,4 @@
       }, 2000);
     });
   </script>
-
 </body>
-</html>

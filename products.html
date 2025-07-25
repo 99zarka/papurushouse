@@ -6,126 +6,22 @@
     <title>Browse Products</title>
     <script src="loadData.js"></script>
     <script src="navbar.js"></script>
+    <script src="footer.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0; /* Remove default body margin */
-            background-color: #f4f4f4;
-        }
-        h1 {
-            margin-left: 20px; /* Adjust heading margin due to navbar */
-        }
-        .products-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-        .book-card {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer; /* Indicate clickable */
-        }
-        .book-card button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .book-card button:hover {
-            background-color: #218838;
-        }
-        .book-card img {
-            min-height: 250px;
-            max-height: 250px;
-
-            height: auto;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-        .book-card h3 {
-            margin: 10px 0 5px;
-            color: #333;
-        }
-        .book-card p {
-            margin: 0 0 5px;
-            color: #666;
-            font-size: 0.9em;
-        }
-        .book-card .rating {
-            font-weight: bold;
-            color: #007bff;
-        }
-        .search-container {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .search-container input[type="text"] {
-            padding: 10px;
-            width: 300px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-right: 10px;
-        }
-        .search-container button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .search-container button:hover {
-            background-color: #0056b3;
-        }
-        .quantity-control {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-        .quantity-control input {
-            width: 50px;
-            text-align: center;
-            margin: 0 5px;
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .quantity-control .quantity-btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1em;
-            margin-top: 0; /* Override previous margin-top */
-        }
-        .quantity-control .quantity-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
 <body>
     
-    <h1>Our Books</h1>
-    <div class="search-container">
-        <input type="text" id="search-input" placeholder="Search by title, year, or author...">
-        <button id="search-button">Search</button>
-    </div>
-    <div id="products-container" class="products-container">
+    <section class="featured-products">
+        <h2 class="section-title">Our Products</h2>
+        <div class="search-container">
+            <input type="text" id="search-input" class="search-input" placeholder="Search by title, year, or author..." style="min-width:30%">
+            <button id="search-button" class="icon-btn"><i class="fas fa-search"></i> Search</button>
+        </div>
+        <div id="products-container" class="featured-grid">
+    </section>
 
     </div>
 
@@ -150,12 +46,12 @@ function displayProducts(booksToDisplay) {
         var cartCounter = cart[isbn] || 1;
 
         productsContainer.innerHTML += `
-            <div class="book-card" onclick="navigateToProduct('${isbn}')">
+            <div class="featured-card" onclick="navigateToProduct('${isbn}')">
                 <img src="${coverPath}" alt="${book.title} Cover">
                 <h3>${book.title}</h3>
-                <p><strong>Author:</strong> ${book.author}</p>
-                <p><strong>Published:</strong> ${book.publishedDate}</p>
-                <p class="rating"><strong>Rating:</strong> ${book.aggregate_rating} / 5</p>
+                <p class="desc"><strong>Author:</strong> ${book.author}</p>
+                <p class="desc"><strong>Published:</strong> ${book.publishedDate}</p>
+                <p class="rating desc"><strong>Rating:</strong> ${book.aggregate_rating} / 5</p>
                 <h3><strong>Price:</strong> ${book.price} L.E.</h3>
                 <div class="quantity-control">
                     <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
@@ -170,7 +66,7 @@ function displayProducts(booksToDisplay) {
                     >
                     <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
                 </div>
-                <button class="add-to-cart" id="btn-${isbn}" data-isbn="${isbn}" onclick="addToCart('${isbn}')">Add to Cart</button>
+                <button class="add-to-cart btn featured-btn" id="btn-${isbn}" data-isbn="${isbn}" onclick="addToCart('${isbn}')">Add to Cart</button>
             </div>
         `;
     }
@@ -184,26 +80,24 @@ function enableDisableButton(isbn){
 
     if(myinput.value == cart[isbn]){
         btn.disabled = true;
-        btn.style.backgroundColor = "grey";
+        btn.classList.remove('btn-cart-add', 'btn-cart-change');
+        btn.classList.add('btn-disabled');
         btn.innerText = "Added to cart";
     }
     else if(cart[isbn]){
         btn.disabled = false;
-        btn.style.backgroundColor = "orange";
+        btn.classList.remove('btn-cart-add', 'btn-disabled');
+        btn.classList.add('btn-cart-change');
         btn.innerText = "change quantity";
 
     }
     else{
         btn.disabled = false;
-        btn.style.backgroundColor = "green";
+        btn.classList.remove('btn-cart-change', 'btn-disabled');
+        btn.classList.add('btn-cart-add');
         btn.innerText = "Add to cart";
     }
 }
-
-
-
-
-
 
 
 function filterBooks() {
@@ -259,7 +153,21 @@ function addToCart(isbn) {
     // alert(`Added ${quantity} copies of ${fullData[isbn].title} to cart!`);
 }
 
-displayProducts(allBooksISBN); // Display all books initially
+// Add this code before displayProducts(allBooksISBN)
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+// Initialize search with URL parameter if present
+const searchQuery = getQueryParam('q');
+if (searchQuery) {
+    document.getElementById('search-input').value = searchQuery;
+    filterBooks(); // Apply the filter immediately
+} else {
+    displayProducts(allBooksISBN); // Only display all books if no search query
+}
+
 var allButtons = document.querySelectorAll('.add-to-cart');
 console.log(allButtons);
 for (var i = 0; i < allButtons.length; i++) {
