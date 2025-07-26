@@ -110,17 +110,13 @@ function filterBooks() {
     var filteredBooks = [];
     for (let i = 0; i < allBooksISBN.length; i++) {
         var isbn = allBooksISBN[i];
-        console.log(i);
-        console.log(isbn);
-        console.log(fullData[isbn]);
-        console.log(fullData[isbn].title);
-        if (fullData[isbn].title.toLowerCase().includes(searchTerm)) {
+        if (fullData[isbn].title.toLowerCase().includes(searchTerm.toLowerCase())) {
             filteredBooks.push(isbn);
         }
-        if (fullData[isbn].publishedDate.includes(searchTerm)) {
+        else if (fullData[isbn].publishedDate.includes(searchTerm.toLowerCase())) {
             filteredBooks.push(isbn);
         }
-        if (fullData[isbn].author.toLowerCase().includes(searchTerm)) {
+        else if (fullData[isbn].author.toLowerCase().includes(searchTerm.toLowerCase())) {
             filteredBooks.push(isbn);
         }
         
