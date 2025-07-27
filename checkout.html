@@ -160,6 +160,7 @@
             console.log('Clear cart button clicked');
             localStorage.removeItem('cart');
             cart = {};
+            window.countCart()
             displayCartItems();
         }
         
