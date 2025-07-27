@@ -26,9 +26,11 @@
       <form id="loginForm">
         <label for="loginEmail">Email</label>
         <input type="email" id="loginEmail" placeholder="Enter your Email" required>
+        <div class="error-message" id="emailError"></div>
 
         <label for="loginPassword">Password</label>
         <input type="password" id="loginPassword" placeholder="Enter your Password" required>
+        <div class="error-message" id="passwordError"></div>
 
         <button type="submit" class="btn auth-btn">Sign In</button>
         <a href="register.html" class="auth-link">Don't have an account? Sign Up</a>
@@ -45,17 +47,47 @@
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value;
 
+      const emailInput = document.getElementById('loginEmail');
+      const passwordInput = document.getElementById('loginPassword');
+      const emailError = document.getElementById('emailError');
+      const passwordError = document.getElementById('passwordError');
+
+      // Clear previous errors
+      emailInput.classList.remove('invalid-input');
+      passwordInput.classList.remove('invalid-input');
+      emailError.textContent = '';
+      passwordError.textContent = '';
+
+      let isValid = true;
+
+      if (!email) {
+        emailError.textContent = 'Email is required.';
+        emailInput.classList.add('invalid-input');
+        isValid = false;
+      }
+
+      if (!password) {
+        passwordError.textContent = 'Password is required.';
+        passwordInput.classList.add('invalid-input');
+        isValid = false;
+      }
+
+      if (!isValid) {
+        return;
+      }
+
       const users = JSON.parse(localStorage.getItem('users')) || [];
+      const foundUserByEmail = users.find(user => user.email === email);
 
-      const foundUser = users.find(user => user.email === email && user.password === password);
-
-      if (foundUser) {
-        localStorage.setItem("loggedInUser", JSON.stringify(foundUser));
-        window.location.href = "index.html";
-        // loginForm.reset();
+      if (!foundUserByEmail) {
+        emailError.textContent = 'Email not registered.';
+        emailInput.classList.add('invalid-input');
+      } else if (foundUserByEmail.password !== password) {
+        passwordError.textContent = 'Incorrect password.';
+        passwordInput.classList.add('invalid-input');
       } else {
-        alert("Invalid email or password.");
-        // loginForm.reset();
+        localStorage.setItem("loggedInUser", JSON.stringify(foundUserByEmail));
+        window.location.href = "index.html";
       }
     });
   </script>

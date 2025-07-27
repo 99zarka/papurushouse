@@ -1226,3 +1226,15 @@ body.dark-mode .checkout-summary {
 body.dark-mode .dot.active {
   background-color: #fff5df;
 }
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.85em;
+  margin-top: -15px;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.invalid-input {
+  border-color: #dc3545 !important;
+}

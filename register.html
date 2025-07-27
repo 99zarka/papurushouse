@@ -26,12 +26,15 @@
       <form id="myForm">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" placeholder="Enter your name" required>
+        <div class="error-message" id="nameError"></div>
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <div class="error-message" id="emailError"></div>
 
         <label for="password">Password:</label>
         <input type="password" name="password" id="password" placeholder="Enter password" required>
+        <div class="error-message" id="passwordError"></div>
 
         <button type="submit" class="btn auth-btn">Sign Up</button>
         <a href="login.html" class="auth-link">Already have an account? Sign in</a>
@@ -45,23 +48,48 @@
     form.addEventListener('submit', function(event) {
       event.preventDefault();
 
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+
+      const nameError = document.getElementById('nameError');
+      const emailError = document.getElementById('emailError');
+      const passwordError = document.getElementById('passwordError');
+
+      // Clear previous errors
+      nameInput.classList.remove('invalid-input');
+      emailInput.classList.remove('invalid-input');
+      passwordInput.classList.remove('invalid-input');
+      nameError.textContent = '';
+      emailError.textContent = '';
+      passwordError.textContent = '';
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      let isValid = true;
 
       if (name.length < 3) {
-        alert("Name must be at least 3 characters.");
-        return;
+        nameError.textContent = "Name must be at least 3 characters.";
+        nameInput.classList.add('invalid-input');
+        isValid = false;
       }
 
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(email)) {
-        alert("Please enter a valid email address.");
-        return;
+        emailError.textContent = "Please enter a valid email address.";
+        emailInput.classList.add('invalid-input');
+        isValid = false;
       }
 
       if (password.length < 4) {
-        alert("Password must be at least 4 characters.");
+        passwordError.textContent = "Password must be at least 4 characters.";
+        passwordInput.classList.add('invalid-input');
+        isValid = false;
+      }
+
+      if (!isValid) {
         return;
       }
 
@@ -69,7 +97,8 @@
 
       const exists = users.find(user => user.email === email);
       if (exists) {
-        alert("This email is already registered.");
+        emailError.textContent = "This email is already registered.";
+        emailInput.classList.add('invalid-input');
         return;
       }
 
